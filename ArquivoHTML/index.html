@@ -1,0 +1,93 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Frontend</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Items</h2>
+    <ul id="itemList" class="list-group"></ul>
+    <hr>
+    <h2>Add Item</h2>
+    <div class="form-group">
+        <label for="itemName">Item Name:</label>
+        <input type="text" class="form-control" id="itemName">
+    </div>
+    <button class="btn btn-primary" onclick="addItem()">Add Item</button>
+    <hr>
+    <h2>Delete Item</h2>
+    <div class="form-group">
+        <label for="deleteItemId">Item ID to Delete:</label>
+        <input type="text" class="form-control" id="deleteItemId">
+    </div>
+    <button class="btn btn-danger" onclick="deleteItem()">Delete Item</button>
+    <hr>
+    <h2>Update Item</h2>
+    <div class="form-group">
+        <label for="updateItemId">Item ID to Update:</label>
+        <input type="text" class="form-control" id="updateItemId">
+        <label for="updateItemName">New Item Name:</label>
+        <input type="text" class="form-control" id="updateItemName">
+    </div>
+    <button class="btn btn-warning" onclick="updateItem()">Update Item</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function fetchItems() {
+        // Função para buscar itens, sem alterações
+    }
+
+    function addItem() {
+        // Função para adicionar itens, sem alterações
+    }
+
+    function deleteItem() {
+        const itemId = document.getElementById('deleteItemId').value;
+        fetch(`http://127.0.0.1:5000/api/items/${itemId}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            fetchItems();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    function updateItem() {
+        const itemId = document.getElementById('updateItemId').value;
+        const itemName = document.getElementById('updateItemName').value;
+        fetch(`http://127.0.0.1:5000/api/items/${itemId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: itemName }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            fetchItems();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Fetch items when the page loads
+    fetchItems();
+</script>
+</body>
+</html>
