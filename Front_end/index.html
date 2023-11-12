@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Excel Data Upload</title>
+</head>
+<body>
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload File</button>
+    <button onclick="downloadData()">Download Data</button>
+
+    <div id="excelData"></div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('http://localhost:5000/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.text();
+            alert(result);
+
+            displayExcelData();
+        }
+
+        async function displayExcelData() {
+            const response = await fetch('http://localhost:5000/data');
+            const data = await response.json();
+
+            const excelData = document.getElementById('excelData');
+            excelData.innerHTML = JSON.stringify(data, null, 2);
+        }
+
+        async function downloadData() {
+            window.open('http://localhost:5000/download', '_blank');
+        }
+    </script>
+</body>
+</html>
